@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moive List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        h1, .panel-heading > h2 {
+            font-weight: bold;
+            color: #008B8B;
+        }
+        img {
+            border-radius: 8px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin: 2% auto;">
+        <h1>Movie Search</h1>
+        <form action="/search" method="post" class="form-inline">
+            <input type="text" name="query_string" value="{{ query_string }}" class="form-control">
+            <input type="submit" name="submit" value="Search" class="btn btn-primary">
+        </form>
+    </div>
+    {% if res is defined %}
+    <div class="row" style="margin: 2% auto;">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Results:</h2>
+                </div>
+                {% if res | length > 0 %}
+                <div class="panel-body">
+                    <h3>Time elapsed: {{ runtime }}</h3>
+                        {% for result in res %}
+                            <div class="row" style="margin: 1% auto;">
+                                <div class="col-sm-2 col-md-2">
+                                    <img src={{ result['poster'] }}>
+                                </div>
+                                <div div class="col-sm-2 col-md-10">
+                                    <h2 >{{ result['title_eng'] | safe }}</h2>
+                                    <p>{{ result['overview'] | safe }}</p>
+                                    {{ result['score_table'] | safe }}
+                                    {{ result['similarity_table'] | safe }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                </div>
+                {% else %}
+                <h3>No results found</h3>
+                {% endif %}
+                <div class="panel-footer"><h4>Movie Search</h4></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</body>
+</html>
